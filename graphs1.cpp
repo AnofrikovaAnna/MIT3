@@ -1,11 +1,12 @@
 #include <iostream>
-#include <map>
+#include <vector>
 #include <numeric>
 
 using namespace std;
 
-map<int, vector<int>> g;
+vector<vector<int>> g;
 vector<int> used;
+int dv;
 
 struct stack{
     int inf;
@@ -28,7 +29,7 @@ int pops(stack *&h){
 }
 
 
-void dfs(vector<vector<int>> g, vector<int> &used, stack *&h, int v){
+void dfs(stack *&h, int v){
     while (h){
         bool fl = false;
         int v = h->inf;
@@ -43,7 +44,13 @@ void dfs(vector<vector<int>> g, vector<int> &used, stack *&h, int v){
         if (fl){
             used[u] = 1;
             pushs(h, u);
-            cout << u << " ";
+            int f = 0;
+            for (int j = 0; j < g[dv].size(); j++){
+                if (g[dv][j] == u || u == dv){
+                    f = 1;
+                }
+            }
+            if (!f) cout << u << ' ';
         }
         else pops(h);
     }
@@ -51,21 +58,27 @@ void dfs(vector<vector<int>> g, vector<int> &used, stack *&h, int v){
 
 int main(){
     int n, m; cin >> n >> m;
+    g.assign(n, {});
     while (m--){
         int x, y; cin >> x >> y;
         g[x].push_back(y);
         g[y].push_back(x);
     }
-    int dv; cin >> dv;
+    cin >> dv;
     stack *hs = nullptr;
     used.assign(n, 0);
-    for (int it = g.begin(); it != g.end(); it++){
-        int v = it->first;
-        if (used[v] == 0){
-            pushs(hs, v);
-            used[v] = 0;
-            if (v != dv)
-            dfs(g, used, hs, v);
+    for (int i = 0; i < n; i++){
+        if (used[i] == 0){
+            int f = 0;
+            for (int j = 0; j < g[dv].size(); j++){
+                if (g[dv][j] == i || i == dv){
+                    f = 1;
+                }
+            }
+            if (!f) cout << i << ' ';
+            used[i] = 1;
+            pushs(hs, 0);
+            dfs(hs, i);
         }
     }
 }
