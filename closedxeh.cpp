@@ -80,12 +80,13 @@ bool find(vector<people> xtab, int el){
     bool fl = false;
     k = int((el * A - int(el * A)) * M);
     int j = 0;
+    vector<int> t;
     while (j < M){
         int p = (k + 1 * j + 3 * j * j) % M;
-        if (xtab[p].exp == el){
+        t.push_back(p);
+        if (xtab[p].exp == el && count(t.begin(), t.end(), p) == 1){
             fl =  true;
             print1(xtab[p]);
-            break;
         }
         j++;
     }
