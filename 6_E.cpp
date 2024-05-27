@@ -47,8 +47,13 @@ int main(){
 			cin >> a >> b;
 			g[a - 1].push_back(b - 1);
 		}
-		if (dfs(0))
-			cout << "YES" << '\n';
+		for (int i = 0; i < n; i++) {
+			if (used[i] == 0) {
+				if (!dfs(i))
+					return 0;
+			}
+		}
+		cout << "YES" << '\n';
 	}
 	
 }
