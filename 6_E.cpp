@@ -6,15 +6,17 @@ using namespace std;
 
 vector<int> p, used;
 vector<vector<int>> g;
+bool fl;
 
-bool dfs(int v) {
+void dfs(int v) {
 	used[v] = 1;
 	for (int u : g[v]) {
 		if (used[u] == 0) {
 			p[u] = v;
-			if (!dfs(u)) return false;
+			dfs(u);
 		}
-		else if (used[u] == 1) {
+		else if (used[u] == 1 && !fl) {
+			fl = true;
 			int w = v;
 			vector<int> r;
 			while (w != u) {
@@ -28,11 +30,9 @@ bool dfs(int v) {
 				cout << r[i] << ' ';
 			cout << u + 1 << ' ';
 			cout << '\n';
-			return false;
 		}
 	}
 	used[v] = 2;
-	return true;
 }
 
 int main(){
@@ -47,13 +47,14 @@ int main(){
 			cin >> a >> b;
 			g[a - 1].push_back(b - 1);
 		}
+		fl = false;
 		for (int i = 0; i < n; i++) {
 			if (used[i] == 0) {
-				if (!dfs(i))
-					return 0;
+				dfs(i);
 			}
 		}
-		cout << "YES" << '\n';
+		if (!fl)
+		    cout << "YES" << '\n';
 	}
 	
 }
