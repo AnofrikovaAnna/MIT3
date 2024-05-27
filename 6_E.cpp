@@ -15,7 +15,7 @@ void dfs(int v) {
 			p[u] = v;
 			dfs(u);
 		}
-		else if (used[u] == 1 && !fl) {
+		if (used[u] == 1 && !fl) {
 			fl = true;
 			int w = v;
 			vector<int> r;
