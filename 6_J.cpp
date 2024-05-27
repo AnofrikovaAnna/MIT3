@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -13,9 +14,16 @@ int n, m, id, fl;
 void dfs(int v) {
 	used[v] = 1;
 	++id;
-	for(int i = 0; i < int(g[v].size()); ++i) {
-		if (id > n - 1) break;
-		if (g[v].empty() || g[v].find(d[id]) == g[v].end()) fl = false;
+	for (int i = 0; i < int(g[v].size()); ++i) {
+		if (id == n) break;
+		if (g[v].empty() || g[v].find(d[id]) == g[v].end()) {
+			for (int u : g[v]) {
+				if (used[u] == 0) {
+					fl = false;
+				}
+			}
+			return;
+		}
 		else {
 			if (used[d[id]] == 0) {
 				dfs(d[id]);
@@ -28,7 +36,7 @@ void dfs(int v) {
 int main() {
 	int t; cin >> t;
 	while (t--) {
-	    cin >> n >> m;
+		cin >> n >> m;
 		d.assign(n, 0);
 		for (int i = 0; i < n; i++) {
 			cin >> d[i];
