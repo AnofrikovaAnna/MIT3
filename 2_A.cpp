@@ -8,6 +8,8 @@
 
 using namespace std;
 
+const int N = 10;
+
 void solve() {
     int n; cin >> n;
     set<int> a;
